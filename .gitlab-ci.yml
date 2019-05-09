@@ -1,0 +1,27 @@
+stages:
+  - compile
+
+before_script:
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - eval $(ssh-agent -s)
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+  - ssh-add <(echo "$SSH_PRIVATE_KEY_STAGING")
+  - ssh-add <(echo "$SSH_PRIVATE_KEY_PRODUCTION")
+
+compile_staging:
+  stage: compile
+  image: fastplaz/ssh-client
+  script:
+    - ssh -p22 ec2-user@$SERVER_STAGING "sudo su - app -c 'cd api-search && git pull origin staging && npm install && pm2 restart api-staging:3000'"
+  only:
+    - staging
+
+compile_production:
+  stage: compile
+  image: fastplaz/ssh-client
+  script:
+    - ssh -p22 ec2-user@$SERVER_PRODUCTION "sudo su - app -c 'cd api-search && git pull origin master && npm install && pm2 restart api:3010'"
+  only:
+    - master
+  when: manual
