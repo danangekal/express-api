@@ -3,7 +3,7 @@ import Util from '../../utils';
 
 const util = new Util();
 
-class BookController {
+class BooksController {
   static async getAllBooks(req, res) {
     try {
       const allBooks = await BookService.getAllBooks();
@@ -103,4 +103,4 @@ class BookController {
   }
 }
 
-export default BookController;
+export default BooksController;

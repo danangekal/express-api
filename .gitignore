@@ -1,4 +1,7 @@
+# package directories
 node_modules
+dist
+jspm_packages
 package-lock.json
 npm-debug.log*
 yarn.lock
@@ -6,3 +9,7 @@ yarn-debug.log*
 yarn-error.log*
 .DS_Store
 .vscode
+.env
+
+# Serverless directories
+.serverless

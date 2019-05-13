@@ -1,9 +1,9 @@
-import database from '../../../database/models';
+import database from '../../database/models';
 
 class BookService {
   static async getAllBooks() {
     try {
-      return await database.Book.findAll();
+      return await database.Books.findAll();
     } catch (error) {
       throw error;
     }
@@ -11,7 +11,7 @@ class BookService {
 
   static async addBook(newBook) {
     try {
-      return await database.Book.create(newBook);
+      return await database.Books.create(newBook);
     } catch (error) {
       throw error;
     }
@@ -19,12 +19,12 @@ class BookService {
 
   static async updateBook(id, updateBook) {
     try {
-      const bookToUpdate = await database.Book.findOne({
+      const bookToUpdate = await database.Books.findOne({
         where: { id: Number(id) }
       });
 
       if (bookToUpdate) {
-        await database.Book.update(updateBook, { where: { id: Number(id) } });
+        await database.Books.update(updateBook, { where: { id: Number(id) } });
 
         return updateBook;
       }
@@ -36,7 +36,7 @@ class BookService {
 
   static async getABook(id) {
     try {
-      const theBook = await database.Book.findOne({
+      const theBook = await database.Books.findOne({
         where: { id: Number(id) }
       });
 
@@ -48,10 +48,10 @@ class BookService {
 
   static async deleteBook(id) {
     try {
-      const bookToDelete = await database.Book.findOne({ where: { id: Number(id) } });
+      const bookToDelete = await database.Books.findOne({ where: { id: Number(id) } });
 
       if (bookToDelete) {
-        const deletedBook = await database.Book.destroy({
+        const deletedBook = await database.Books.destroy({
           where: { id: Number(id) }
         });
         return deletedBook;

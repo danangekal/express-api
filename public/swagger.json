@@ -1,0 +1,23 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "RESTful API",
+    "version": "1.0.0",
+    "date": "May 2019",
+    "title": "RESTful API",
+    "termsOfService": "",
+    "contact": {
+      "email": "danangekal@gmail.com"
+    }
+  },
+  "tags": [
+    
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    
+  }
+}

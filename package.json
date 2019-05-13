@@ -1,7 +1,7 @@
 {
   "name": "express-api",
   "version": "1.0.0",
-  "description": "Skeleton for express API with ES6, docs, support serverless, etc.",
+  "description": "Skeleton for express API with ES6, docs, redis, etc.",
   "main": "app",
   "repository": {
     "type": "git",
@@ -10,27 +10,39 @@
   "author": "Danang Eko Alfianto (danangekal@gmail.com)",
   "license": "MIT",
   "scripts": {
-    "sequelize:init": "sequelize init && rm -rf ./config/config.js && cp ./config/database.example.js ./config/database.js",
-    "dev": "nodemon --exec babel-node ./app/index.js",
+    "start": "yarn prod",
+    "server": "nodemon --exec babel-node ./app/index.js",
+    "server:prod": "nodemon ./dist/index.js",
+    "dev": "NODE_ENV=development yarn server",
+    "clean": "rm -rf ./dist",
+    "build": "yarn clean && babel -d ./dist ./app -s",
+    "prod": "NODE_ENV=production yarn build && yarn server:prod",
+    "serverless:offline": "yarn build && serverless offline start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
+    "debug": "^4.1.1",
     "dotenv": "^8.0.0",
     "express": "^4.16.4",
     "moment": "^2.24.0",
     "morgan": "^1.9.1",
     "mysql2": "^1.6.5",
     "path": "^0.12.7",
-    "sequelize": "^5.8.5"
+    "redis": "^2.8.0",
+    "sequelize": "^5.8.5",
+    "serverless-http": "^2.0.1",
+    "socket.io": "^2.2.0",
+    "swagger-ui-express": "^4.0.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.4",
     "@babel/node": "^7.2.2",
     "@babel/plugin-transform-runtime": "^7.4.4",
+    "@babel/polyfill": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "@babel/register": "^7.4.4",
     "@babel/runtime": "^7.4.4",
@@ -39,6 +51,7 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.2",
     "nodemon": "^1.19.0",
-    "sequelize-cli": "^5.4.0"
+    "sequelize-cli": "^5.4.0",
+    "serverless-offline": "^4.10.0"
   }
 }
