@@ -8,7 +8,6 @@ import http from 'http';
 import cors from 'cors';
 import redis from 'redis';
 import config from 'dotenv';
-
 import swaggerUi from 'swagger-ui-express';
 
 import routes from './routes';
@@ -19,7 +18,17 @@ config.config();
 
 const app = express();
 const debug = debugLib('express-api:server');
-const client = redis.createClient({ port: process.env.REDIS_PORT, host: process.env.REDIS_HOST });
+const env = process.env.NODE_ENV || 'development';
+let client = '';
+
+if (env === 'development') {
+  client = redis.createClient();
+} else {
+  client = redis.createClient({ port: process.env.REDIS_PORT, host: process.env.REDIS_HOST });
+}
+
+client.on('connect', () => { console.log('Redis client connected'); });
+client.on('error', (err) => { console.log(`Something went wrong ${err}`); });
 
 app.use(logger('dev'));
 app.use(express.json({ limit: '5mb' }));
@@ -30,25 +39,12 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use(cors());
 app.options('*', cors());
 
-client.on('connect', () => {
-  console.log('Redis client connected');
-});
-
-client.on('error', (err) => {
-  console.log(`Something went wrong ${err}`);
-});
 
 // default route
 app.get('/', (req, res) => res.status(200).send({ message: 'Welcome to this API.' }));
-
-app.use('/api-docs', swaggerUi.serve);
-app.get('/api-docs', swaggerUi.setup(swaggerDoc));
-
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 app.use('/api/v1', routes);
-
-app.use((req, res) => {
-  res.status(404).send({ message: 'Not Found URL' });
-});
+app.use((req, res) => res.status(404).send({ message: 'Not Found URL' }));
 
 /**
  * Normalize a port into a number, string, or false.

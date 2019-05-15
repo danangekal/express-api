@@ -2,7 +2,7 @@ import config from 'dotenv';
 
 config.config();
 
-const db = {
+export default {
   development: {
     username: 'root',
     password: 'root',
@@ -55,5 +55,3 @@ const db = {
     }
   }
 };
-
-export default db;
