@@ -31,7 +31,7 @@
     "morgan": "^1.9.1",
     "mysql2": "^1.6.5",
     "path": "^0.12.7",
-    "redis": "^2.8.0",
+    "redis": "^3.0.2",
     "sequelize": "^5.8.5",
     "serverless-http": "^2.0.1",
     "socket.io": "^2.2.0",
